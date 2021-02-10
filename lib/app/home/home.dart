@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:yes_now/app_config/constant.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:yes_now/routing/app_router.dart';
 import 'package:yes_now/state/app_state.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -46,6 +47,15 @@ class HomeScreen extends ConsumerWidget {
             ),
           ),
           backgroundColor: Colors.transparent,
+          actions: [
+            IconButton(
+              icon: Icon(Icons.bookmark),
+              splashRadius: 25,
+              onPressed: () {
+                Navigator.pushNamed(context, AppRoutes.history);
+              },
+            ),
+          ],
         ),
         backgroundColor: Colors.transparent,
         body: SingleChildScrollView(
@@ -200,15 +210,13 @@ class HomeScreen extends ConsumerWidget {
     double position;
     final triangleWidth = 20.0;
 
-    // -1 -- 0 -- 1
-
     double pointerPosition(bmi,position){
       final factor = (triangleWidth/2/100);
       double mid = width /(2+factor);
       double max =  (mid * (2-factor)) ;
       double min = 0;
 
-      return position = min + 145;
+      return position = min;
 
     }
 
@@ -252,7 +260,9 @@ class HomeScreen extends ConsumerWidget {
                     IconButton(
                       icon: Icon(Icons.info_outline_rounded),
                       splashRadius: 25,
-                      onPressed: () {},
+                      onPressed: () {
+                        // Todo save record bmi
+                      },
                     ),
                   ],
                 ),
@@ -305,13 +315,8 @@ class HomeScreen extends ConsumerWidget {
             Container(
               alignment: Alignment(-1,0),
               margin: EdgeInsets.only(left: pointerPosition(bmi,position)),
-              color: Colors.redAccent.withOpacity(0.2),
+              //color: Colors.redAccent.withOpacity(0.2),
               width: width *0.9,
-              //child: Container(
-              //  color: Colors.blue,
-              //  height: 15,
-              //  width: triangleWidth,
-              //),
               child: ClipPath(
                 clipper: TriangleClipper(),
                 child: Container(

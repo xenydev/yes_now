@@ -28,13 +28,13 @@ class BMINotifier extends StateNotifier<double> {
    void getColor() {
      double bmi = read(bmiProvider.state);
 
-     if(bmi < 18.49){
+     if(bmi < 18.5){
        state = BMIResult(color: kUnderWeight,message: kUnderWeightMessage);
-     }else if(bmi >= 18.5 && bmi < 24.9){
+     }else if(bmi >= 18.5 && bmi < 25){
        state = BMIResult(color: kNormal,message: kNormalMessage);
-     }else if (bmi >= 25 && bmi < 29.9){
+     }else if (bmi >= 25 && bmi < 30){
        state = BMIResult(color: kOverWeight,message: kOverWeightMessage);
-     }else if (bmi >= 30 && bmi < 39.9){
+     }else if (bmi >= 30 && bmi < 40){
        state = BMIResult(color: kObeseI,message: kObeseIMessage);
      }else if (bmi > 40){
        state = BMIResult(color: kObeseII,message: kObeseIIMessage);
