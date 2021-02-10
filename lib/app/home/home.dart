@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:yes_now/app_config/constant.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:yes_now/routing/app_router.dart';
@@ -210,6 +211,7 @@ class HomeScreen extends ConsumerWidget {
       BuildContext context, double height, double width, Color color, double bmi, String message, double weightUser) {
     double position;
     final triangleWidth = 20.0;
+    String now = DateFormat("dd-MM-yyyy").format(DateTime.now());
 
     double pointerPosition(bmi, position) {
       final factor = (triangleWidth / 2 / 100);
@@ -257,7 +259,7 @@ class HomeScreen extends ConsumerWidget {
                       splashRadius: 25,
                       onPressed: () {
                         bmi != 0
-                            ? context.read(recordsNotifierProvider).createRecord(DateTime.now(), bmi)
+                            ? context.read(recordsNotifierProvider).createRecord(DateFormat('dd-MM-yyyy').parse(now), bmi)
                             : print('No data to save');
                       },
                     ),

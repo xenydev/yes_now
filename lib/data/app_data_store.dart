@@ -38,4 +38,26 @@ class AppDataStore implements DataStore {
       return null;
     }
   }
+
+  Future<void> updateRecord(String id, double bmi) async {
+    try {
+
+      BMIRecord recordToUpdate;
+
+      final findRecordUpdate = Finder(filter: Filter.equal('id', id));
+      final recordFiltered = await _bmiStore.find(await _db, finder: findRecordUpdate);
+
+      recordFiltered.map((item) {
+        return recordToUpdate = BMIRecord.fromJson(item.value);
+      }).toList();
+
+      BMIRecord newRecord = recordToUpdate.copyWith(bmi: bmi);
+
+      await _bmiStore.update(await _db, newRecord.toJson(), finder: findRecordUpdate);
+
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
 }

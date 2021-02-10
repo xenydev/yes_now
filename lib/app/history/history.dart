@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/all.dart';
-import 'package:yes_now/app_config/constant.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:yes_now/models/bmi_record/bmiRecord.dart';
 import 'package:yes_now/state/app_state.dart';
 
@@ -9,6 +9,9 @@ class HistoryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Color color = Colors.black87;
+    String message = 'IDK';
+
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(),
@@ -38,7 +41,7 @@ class HistoryScreen extends StatelessWidget {
                               shrinkWrap: true,
                               scrollDirection: Axis.vertical,
                               children: [
-                                ...records.map((item) => RecordTile(item: item)),
+                                ...records.map((item) => RecordTile(item: item,color: color,message: message)),
                               ],
                             ),
                           ],
@@ -67,10 +70,12 @@ class HistoryScreen extends StatelessWidget {
 class RecordTile extends StatelessWidget {
   const RecordTile({
     Key key,
-    this.item,
+    this.item, this.color, this.message,
   }) : super(key: key);
 
   final BMIRecord item;
+  final Color color;
+  final String message;
 
   @override
   Widget build(BuildContext context) {
@@ -93,21 +98,21 @@ class RecordTile extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Icon(Icons.circle, color: kNormal, size: width * 0.1),
+                  Icon(Icons.circle, color: color, size: width * 0.08),
                   SizedBox(width: width * 0.02),
                   Text(
-                    'BMI: '+ item.bmi.toString(),
+                    message,
                     style: Theme.of(context).textTheme.headline6,
                   ),
                 ],
               ),
               SizedBox(height: height * 0.01),
-              Text(kNormalMessage, style: Theme.of(context).textTheme.bodyText2),
+              Text(DateFormat('dd-MM-yyyy').format(item.date), style: Theme.of(context).textTheme.bodyText2),
             ],
           ),
           Container(
             decoration: BoxDecoration(
-              color: kNormal.withOpacity(0.2),
+              color: color.withOpacity(0.2),
               borderRadius: BorderRadius.circular(20),
             ),
             padding: EdgeInsets.symmetric(
@@ -115,7 +120,7 @@ class RecordTile extends StatelessWidget {
               horizontal: width * 0.05,
             ),
             child: Text(
-              item.date.day.toString()+'-'+ item.date.month.toString(),
+              item.bmi.toString(),
               style: TextStyle(color: Colors.black87, fontSize: 30),
             ),
           ),
