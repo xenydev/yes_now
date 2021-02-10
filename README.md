@@ -1,16 +1,25 @@
-# yes_now
+# Yes Now
 
-IMC and weight tracker.
+Yes Now is a flutter app made by me for learning proposes.
 
-## Getting Started
+## About
 
-This project is a starting point for a Flutter application.
+Is a Flutter app where you can register you IMC and save it on a history to record your progress. It uses riverpod for state management, freezed and sembast for local data storage.
 
-A few resources to get you started if this is your first Flutter project:
+Be free to use it if you want to.
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+## Todo's
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- [ ] Add history.
+- [ ] Add logo and native splash screen.
+- [ ] Add local store management (crud) and error catching.
+- [ ] Add snackbars.
+- [ ] Add app images and video demo.
+
+## Hello there
+Hi if this has been useful for you it is free to star the repo. Also you could buy me coffe if you want! Any help to keep me developing is appreciated! Thank you in advanced.
+
+<a href="https://www.buymeacoffee.com/xeny" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="41" width="174"></a>
+
+## Images
+## Video
