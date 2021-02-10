@@ -1,9 +1,23 @@
- import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:yes_now/app_config/constant.dart';
+import 'package:yes_now/data/app_data_store.dart';
+import 'package:yes_now/data/data_store.dart';
 import 'package:yes_now/models/bmiResult_model.dart';
+import 'package:yes_now/state/bmi_notifier.dart';
 
- final bmiProvider = StateNotifierProvider<BMINotifier>((ref) {
+final dataStoreProvider = Provider<DataStore>((ref) => throw UnimplementedError());
+
+final repositoryProvider = Provider<AppDataStore>((ref) {
+  return AppDataStore();
+});
+
+final recordsNotifierProvider = StateNotifierProvider<BMIStateNotifier>((ref) {
+  return BMIStateNotifier(ref.read);
+});
+
+
+final bmiProvider = StateNotifierProvider<BMINotifier>((ref) {
    return BMINotifier();
  });
 

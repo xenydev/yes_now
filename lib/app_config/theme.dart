@@ -34,9 +34,9 @@ class AppTheme {
       brightness: Brightness.light,
       elevation: 0,
       iconTheme: IconThemeData(
-        color: Colors.white70,
+        color: Colors.black54,
       ),
-      color: Colors.black87,
+      color: Colors.transparent,
       textTheme: TextTheme(
         bodyText1: TextStyle(
           color: Color(0xFF0E0E0E),
@@ -107,7 +107,7 @@ class AppTheme {
     appBarTheme: AppBarTheme(
       brightness: Brightness.dark,
       elevation: 0,
-      color: Color(0xFF131313),
+      color: Colors.transparent,
       iconTheme: IconThemeData(color: Colors.white54),
       textTheme: TextTheme(
         bodyText1: TextStyle(

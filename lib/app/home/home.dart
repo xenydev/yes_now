@@ -19,8 +19,8 @@ class HomeScreen extends ConsumerWidget {
     Color color = colorState.color;
     String message = colorState.message;
     double bmi = double.parse((bmiState).toStringAsFixed(2));
-    int _heightUser;
-    double _weightUser;
+    int heightUser;
+    double weightUser;
 
     return AnimatedContainer(
       duration: Duration(seconds: 1),
@@ -46,7 +46,6 @@ class HomeScreen extends ConsumerWidget {
               color: Colors.white,
             ),
           ),
-          backgroundColor: Colors.transparent,
           actions: [
             IconButton(
               icon: Icon(Icons.bookmark),
@@ -64,8 +63,8 @@ class HomeScreen extends ConsumerWidget {
             height: height,
             child: Column(
               children: [
-                buildBMIForm(context, height, width, _formKey, _heightUser, _weightUser, color),
-                buildResults(height, width, color,bmi,message),
+                buildBMIForm(context, height, width, _formKey, heightUser, weightUser, color),
+                buildResults(context, height, width, color, bmi, message, weightUser),
               ],
             ),
           ),
@@ -119,7 +118,8 @@ class HomeScreen extends ConsumerWidget {
                           FilteringTextInputFormatter.allow(RegExp(r'^(?!0)\d{0,3}')),
                         ],
                         keyboardType: TextInputType.number,
-                        validator: (value) => value.isEmpty || value.length < 3 || int.parse(value) <= 0 ? 'Invalid height' : null,
+                        validator: (value) =>
+                            value.isEmpty || value.length < 3 || int.parse(value) <= 0 ? 'Invalid height' : null,
                         onSaved: (value) => heightUser = int.parse(value),
                       ),
                     ],
@@ -194,7 +194,7 @@ class HomeScreen extends ConsumerWidget {
               onPressed: () {
                 if (_formKey.currentState.validate()) {
                   _formKey.currentState.save();
-                  context.read(bmiProvider).calculateBMI(heightUser,weightUser);
+                  context.read(bmiProvider).calculateBMI(heightUser, weightUser);
                   context.read(colorProvider).getColor();
                   FocusScope.of(context).unfocus(); //dismiss keyboard
                 }
@@ -206,18 +206,18 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 
-  Widget buildResults(double height, double width, Color color, double bmi,String message) {
+  Widget buildResults(
+      BuildContext context, double height, double width, Color color, double bmi, String message, double weightUser) {
     double position;
     final triangleWidth = 20.0;
 
-    double pointerPosition(bmi,position){
-      final factor = (triangleWidth/2/100);
-      double mid = width /(2+factor);
-      double max =  (mid * (2-factor)) ;
+    double pointerPosition(bmi, position) {
+      final factor = (triangleWidth / 2 / 100);
+      double mid = width / (2 + factor);
+      double max = (mid * (2 - factor));
       double min = 0;
 
       return position = min;
-
     }
 
     return Expanded(
@@ -255,14 +255,16 @@ class HomeScreen extends ConsumerWidget {
                     IconButton(
                       icon: Icon(Icons.save_alt_rounded),
                       splashRadius: 25,
-                      onPressed: () {},
+                      onPressed: () {
+                        bmi != 0
+                            ? context.read(recordsNotifierProvider).createRecord(DateTime.now(), bmi)
+                            : print('No data to save');
+                      },
                     ),
                     IconButton(
                       icon: Icon(Icons.info_outline_rounded),
                       splashRadius: 25,
-                      onPressed: () {
-                        // Todo save record bmi
-                      },
+                      onPressed: () {},
                     ),
                   ],
                 ),
@@ -313,10 +315,10 @@ class HomeScreen extends ConsumerWidget {
             ),
             SizedBox(height: height * 0.03),
             Container(
-              alignment: Alignment(-1,0),
-              margin: EdgeInsets.only(left: pointerPosition(bmi,position)),
+              alignment: Alignment(-1, 0),
+              margin: EdgeInsets.only(left: pointerPosition(bmi, position)),
               //color: Colors.redAccent.withOpacity(0.2),
-              width: width *0.9,
+              width: width * 0.9,
               child: ClipPath(
                 clipper: TriangleClipper(),
                 child: Container(
@@ -328,15 +330,15 @@ class HomeScreen extends ConsumerWidget {
             ),
             SizedBox(height: height / 300),
             BMIBarIndicator(
-              width: width *0.9,
+              width: width * 0.9,
               background: Colors.grey,
               fractionLimit: width,
               fractions: [
-                BarFraction(size: width/5, color: kUnderWeight),
-                BarFraction(size: width/5, color: kNormal),
-                BarFraction(size: width/5, color: kOverWeight),
-                BarFraction(size: width/5, color: kObeseI),
-                BarFraction(size: width/5, color: kObeseII),
+                BarFraction(size: width / 5, color: kUnderWeight),
+                BarFraction(size: width / 5, color: kNormal),
+                BarFraction(size: width / 5, color: kOverWeight),
+                BarFraction(size: width / 5, color: kObeseI),
+                BarFraction(size: width / 5, color: kObeseII),
               ],
             ),
           ],
@@ -344,7 +346,6 @@ class HomeScreen extends ConsumerWidget {
       ),
     );
   }
-
 }
 
 class BarFraction {
